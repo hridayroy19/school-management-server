@@ -5,6 +5,7 @@ import catchAsync from '../../utils/catchAsync';
 import { Student } from './student.model';
 import User from '../user/user.model';
 import sendResponse from '../../utils/sendResponse';
+import { studentService } from './student.service';
 
 const creatStudent = catchAsync(async (req, res) => {
     const session = await mongoose.startSession();
@@ -57,6 +58,33 @@ const creatStudent = catchAsync(async (req, res) => {
     }
 });
 
+const getStudent = catchAsync(async (req, res) => {
+
+    const result = await studentService.studnetGetAllInDb()
+
+    sendResponse(res, {
+        status: true,
+        statusCode: httpStatus.CREATED,
+        message: 'All Student Retrieve successfully',
+        data: result,
+    });
+})
+
+const deleteStudent = catchAsync(async (req, res) => {
+    const id = req.params.id
+    const result = await studentService.studnetDeleteInDb(id)
+
+    sendResponse(res, {
+        status: true,
+        statusCode: httpStatus.CREATED,
+        message: 'Student Delete successfully',
+        data: result,
+    });
+})
+
 export const studnetController = {
-    creatStudent
+    creatStudent,
+    getStudent,
+    deleteStudent
+
 }

@@ -6,6 +6,7 @@ import studentRouter from './app/module/student/student.routes'
 import cors from 'cors'
 import { globalErrorHandler } from './app/middlewares/globalErrorHandler'
 import { NotFound } from './app/middlewares/notFound'
+import techerRouter from './app/module/techer/techer.router'
 
 const app = express()
 
@@ -20,6 +21,7 @@ app.use('/api/user', userRouter)
 app.use('/api/auth', authRoute)
 app.use('/api/class', classRoute)
 app.use('/api/student', studentRouter)
+app.use('/api/techer', techerRouter)
 
 
 app.get('/', (req: Request, res: Response) => {

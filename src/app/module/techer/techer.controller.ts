@@ -1,0 +1,75 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import httpStatus from "http-status";
+import mongoose from "mongoose";
+import catchAsync from "../../utils/catchAsync";
+import { Teacher } from "./techer.model";
+import User from "../user/user.model";
+import { TecherService } from "./techer.service";
+import sendResponse from "../../utils/sendResponse";
+
+const createTeacher = catchAsync(async (req, res) => {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
+  try {
+    const { userId, subjects, assignedClasses, contactPhone, address, joinDate } = req.body;
+
+    // Check this user
+    const existingTeacher = await Teacher.findOne({ userId }).session(session);
+    if (existingTeacher) {
+      throw new Error("Teacher userId already exists");
+    }
+
+    // Find User and update role Techer ...
+    const user = await User.findById(userId).session(session);
+    if (!user) {
+      throw new Error("User not found");
+    }
+    await User.findByIdAndUpdate(
+            userId,
+            { role: 'TEACHER' },
+            { session, new: true }
+        );
+
+    // Auto generate employeeId
+    const lastTeacher = await Teacher.findOne().sort({ createdAt: -1 }).session(session);
+    const newIdNumber = lastTeacher
+      ? parseInt(lastTeacher.employeeId.split("-")[1]) + 1
+      : 1;
+    const employeeId = `EMP-${String(newIdNumber).padStart(3, "0")}`;
+
+    // teacher data
+    const teacherData = {
+      userId,
+      employeeId,
+      subjects,
+      assignedClasses,
+      contactPhone,
+      address,
+      joinDate
+    };
+
+
+    const result = await TecherService.techerCrateInDb(teacherData);
+    console.log(result,"main data")
+
+    await session.commitTransaction();
+    session.endSession();
+
+    sendResponse(res, {
+      status: true,
+      statusCode: httpStatus.CREATED,
+      message: "Teacher profile created & role updated successfully",
+      data: result
+    });
+
+  } catch (error: any) {
+    await session.abortTransaction();
+    session.endSession();
+    res.status(400).json({ message: error.message });
+  }
+});
+
+export const teacherController = {
+  createTeacher
+};

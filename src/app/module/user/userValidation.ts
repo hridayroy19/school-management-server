@@ -13,10 +13,10 @@ const userValidationSchema = z.object({
     required_error: 'Password is required',
   }).min(6, 'Password must be at least 6 characters'),
 
-  role: z.enum(['ADMIN', 'TRAINER', 'TRAINEE'], {
+  role: z.enum(['USER', 'STUDENT', 'TEACHER'], {
     required_error: 'Role is required and must be ADMIN, TRAINER or TRAINEE',
-  }).optional(),
-  profilePhoto: z.string().optional(),
+  }).default("USER").optional(),
+  profilePhotoUrl: z.string().optional(),
   userStatus: z.enum(['active', 'inactive']).optional(),
 
   createdAt: z.union([z.string(), z.date()]).optional(),

@@ -28,10 +28,10 @@ const userSchema = new Schema<IUser>({
   },
   role: {
     type: String,
-    enum: ['ADMIN', 'TRAINER', 'TRAINEE'],
-    default: 'TRAINEE',
+    enum: ['USER', 'STUDENT', 'TEACHER','ADMIN',],
+    default: 'USER',
   },
-  profilePhoto: {
+  profilePhotoUrl: {
     type: String,
     default: ""
   },

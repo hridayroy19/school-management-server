@@ -12,6 +12,7 @@ authRoute.post(
     validateRequest(UserValidation.userValidationSchema),
     AuthController.register
 )
+
 authRoute.post(
     '/login',
     validateRequest(AuthValidation.loginValidationSchema),

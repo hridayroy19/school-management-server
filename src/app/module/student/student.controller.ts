@@ -1,0 +1,62 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import httpStatus from 'http-status';
+import mongoose from 'mongoose';
+import catchAsync from '../../utils/catchAsync';
+import { Student } from './student.model';
+import User from '../user/user.model';
+import sendResponse from '../../utils/sendResponse';
+
+const creatStudent = catchAsync(async (req, res) => {
+    const session = await mongoose.startSession();
+    session.startTransaction();
+
+    try {
+        const { userId, rollNumber, classId } = req.body;
+
+
+        // existing student
+        const existingStudent = await Student.findOne({ userId }).session(session);
+        if (existingStudent) {
+            throw new Error('Student with this userId already exists');
+        }
+        // role 
+        const rollExists = await Student.findOne({ rollNumber, classId }).session(session);
+        if (rollExists) {
+            throw new Error('Roll number already exists in this class');
+        }
+
+        // Update user role
+        const user = await User.findById(userId).session(session);
+        if (!user) {
+            throw new Error('User not found');
+        }
+        await User.findByIdAndUpdate(
+            userId,
+            { role: 'STUDENT' },
+            { session, new: true }
+        );
+
+
+        // Create student profile
+        const result = await Student.create(req.body);
+        // console.log(result)
+        await session.commitTransaction();
+        session.endSession();
+
+        sendResponse(res, {
+            status: true,
+            statusCode: httpStatus.CREATED,
+            message: 'Student profile created & role updated successfully',
+            data: result,
+        });
+
+    } catch (error: any) {
+        await session.abortTransaction();
+        session.endSession();
+        res.status(400).json({ message: error.message });
+    }
+});
+
+export const studnetController = {
+    creatStudent
+}

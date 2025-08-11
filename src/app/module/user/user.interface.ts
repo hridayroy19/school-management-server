@@ -1,13 +1,13 @@
 
-export type UserRole = 'ADMIN' | 'TRAINER' | 'TRAINEE';
+export type UserRole = 'USER' | 'STUDENT' | 'TEACHER' | 'ADMIN';
 
 export interface IUser {
   name: string;
   email: string;
   password: string;
   role: UserRole;
-  userStatus:string
-  profilePhoto:string
+  userStatus: string
+  profilePhotoUrl: string
   createdAt: Date;
   updatedAt: Date;
 }

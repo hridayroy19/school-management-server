@@ -8,6 +8,12 @@ const techerCrateInDb = async (data: ITeacher) => {
     return result
 }
 
+const techerGetAllInDb = async () => {
+    const result = await Teacher.find()
+    return result
+}
+
 export const TecherService = {
     techerCrateInDb,
+    techerGetAllInDb
 }

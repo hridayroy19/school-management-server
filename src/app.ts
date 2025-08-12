@@ -21,7 +21,7 @@ app.use('/api/user', userRouter)
 app.use('/api/auth', authRoute)
 app.use('/api/class', classRoute)
 app.use('/api/student', studentRouter)
-app.use('/api/techer', techerRouter)
+app.use('/api/teacher', techerRouter)
 
 
 app.get('/', (req: Request, res: Response) => {

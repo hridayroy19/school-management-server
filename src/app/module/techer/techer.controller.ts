@@ -51,7 +51,7 @@ const createTeacher = catchAsync(async (req, res) => {
 
 
     const result = await TecherService.techerCrateInDb(teacherData);
-    console.log(result,"main data")
+    // console.log(result,"main data")
 
     await session.commitTransaction();
     session.endSession();
@@ -70,6 +70,19 @@ const createTeacher = catchAsync(async (req, res) => {
   }
 });
 
+
+const getAllTecher = catchAsync(async(req , res)=>{
+  const  result = await TecherService.techerGetAllInDb()
+
+   sendResponse(res, {
+      status: true,
+      statusCode: httpStatus.CREATED,
+      message: "Teacher All Retrieve successfully",
+      data: result
+    });
+})
+
 export const teacherController = {
-  createTeacher
+  createTeacher,
+  getAllTecher
 };

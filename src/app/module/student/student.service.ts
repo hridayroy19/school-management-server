@@ -76,4 +76,4 @@ export const studentService = {
     studnetGetAllInDb,
     studnetDeleteInDb,
     updateStudentInDb
-}
+} 

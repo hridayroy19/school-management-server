@@ -70,7 +70,7 @@ const createTeacher = catchAsync(async (req, res) => {
   }
 });
 
-
+// get all techer
 const getAllTecher = catchAsync(async(req , res)=>{
   const  result = await TecherService.techerGetAllInDb()
 
@@ -82,7 +82,24 @@ const getAllTecher = catchAsync(async(req , res)=>{
     });
 })
 
+
+const deleteTeacher = catchAsync(async (req, res) => {
+    const id = req.params.id
+    const result = await TecherService.teacherDeleteInDb(id)
+
+    sendResponse(res, {
+        status: true,
+        statusCode: httpStatus.CREATED,
+        message: 'Teacher Delete successfully',
+        data: result,
+    });
+})
+
+
+
+
 export const teacherController = {
   createTeacher,
-  getAllTecher
+  getAllTecher,
+  deleteTeacher
 };

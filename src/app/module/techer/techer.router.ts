@@ -7,5 +7,6 @@ techerRouter.get("/", teacherController.getAllTecher)
 techerRouter.post("/create-techer", teacherController.createTeacher)
 techerRouter.delete("/create-delete/:id", teacherController.deleteTeacher)
 techerRouter.patch("/update-techer/:id", teacherController.updateTeacher)
+techerRouter.get("/assient-student/:id", teacherController.getMyStudents)
 
 export default techerRouter;

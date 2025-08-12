@@ -14,6 +14,12 @@ const studnetGetAllInDb = async () => {
     return result
 }
 
+// get single student 
+const studnetGetInDb = async (id:string) => {
+    const result = await Student.findById(id)
+    return result
+}
+
 // student Delete 
 const studnetDeleteInDb = async (studentId: string) => {
     const session = await mongoose.startSession();
@@ -75,5 +81,6 @@ export const studentService = {
     studnetcrateInDb,
     studnetGetAllInDb,
     studnetDeleteInDb,
-    updateStudentInDb
+    updateStudentInDb,
+    studnetGetInDb
 } 

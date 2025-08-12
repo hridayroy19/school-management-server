@@ -3,6 +3,7 @@ import mongoose from "mongoose"
 import { ITeacher } from "./techer.interface"
 import { Teacher } from "./techer.model"
 import User from "../user/user.model"
+import { Student } from "../student/student.model"
 
 
 
@@ -82,10 +83,22 @@ const updateTeacherInDb = async (id: string, payload: Partial<any>) => {
 };
 
 
+const getAssignedStudents = async (teacherId: string) => {
+    const teacher = await Teacher.findById(teacherId);
+    if (!teacher) throw new Error("Teacher not found");
+    const students = await Student.find({
+        classId: { $in: teacher.assignedClasses }
+    });
+
+    return students;
+}
+
+
 
 export const TecherService = {
     techerCrateInDb,
     techerGetAllInDb,
     teacherDeleteInDb,
-    updateTeacherInDb
+    updateTeacherInDb,
+    getAssignedStudents
 }

@@ -58,7 +58,8 @@ const creatStudent = catchAsync(async (req, res) => {
     }
 });
 
-const getStudent = catchAsync(async (req, res) => {
+// get all Student by admin
+const getAllStudent = catchAsync(async (req, res) => {
 
     const result = await studentService.studnetGetAllInDb()
 
@@ -69,6 +70,21 @@ const getStudent = catchAsync(async (req, res) => {
         data: result,
     });
 })
+
+const getSudent = catchAsync(async (req, res) => {
+
+    const id = req.params.id;
+    const result = await studentService.studnetGetInDb(id)
+
+    sendResponse(res, {
+        status: true,
+        statusCode: httpStatus.CREATED,
+        message: 'A Student Retrieve successfully',
+        data: result,
+    });
+})
+
+
 
 const deleteStudent = catchAsync(async (req, res) => {
     const id = req.params.id
@@ -100,8 +116,9 @@ const updateStudent = catchAsync(async (req, res) => {
 
 export const studnetController = {
     creatStudent,
-    getStudent,
+    getAllStudent,
     deleteStudent,
-    updateStudent
+    updateStudent,
+    getSudent
 
 }

@@ -95,7 +95,6 @@ const deleteTeacher = catchAsync(async (req, res) => {
     });
 })
 
-
 const updateTeacher = catchAsync(async (req, res) => {
     const { id } = req.params;
     // console.log(id)
@@ -112,9 +111,25 @@ const updateTeacher = catchAsync(async (req, res) => {
 });
 
 
+const getMyStudents = catchAsync(async (req, res) => {
+  const teacherId = req.params.id; 
+  const students = await TecherService.getAssignedStudents(teacherId);
+
+  sendResponse(res, {
+    status: true,
+    statusCode: httpStatus.OK,
+    message: "Assigned students fetched successfully",
+    data: students,
+  });
+});
+
+
+
+
 export const teacherController = {
   createTeacher,
   getAllTecher,
   deleteTeacher,
-  updateTeacher
+  updateTeacher,
+  getMyStudents
 };

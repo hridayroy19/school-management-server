@@ -7,6 +7,7 @@ import cors from 'cors'
 import { globalErrorHandler } from './app/middlewares/globalErrorHandler'
 import { NotFound } from './app/middlewares/notFound'
 import techerRouter from './app/module/techer/techer.router'
+import subjectRoute from './app/module/subjcet/subject.route'
 
 const app = express()
 
@@ -20,6 +21,7 @@ app.use(express.json())
 app.use('/api/user', userRouter)
 app.use('/api/auth', authRoute)
 app.use('/api/class', classRoute)
+app.use('/api/subject', subjectRoute)
 app.use('/api/student', studentRouter)
 app.use('/api/teacher', techerRouter)
 

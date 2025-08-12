@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import mongoose from "mongoose"
 import { ITeacher } from "./techer.interface"
 import { Teacher } from "./techer.model"
@@ -46,8 +47,45 @@ const teacherDeleteInDb = async (teacherId: string) => {
     }
 };
 
+const updateTeacherInDb = async (id: string, payload: Partial<any>) => {
+    // console.log(id,'id')
+
+    const teacher = await Teacher.findById(id);
+    // console.log(teacher,'data')
+
+    if (!teacher) {
+        throw new Error('teacher not found');
+    }
+
+
+    if (payload.name) {
+        await User.findByIdAndUpdate(teacher.userId, { name: payload.name }, { new: true });
+    }
+
+    const profileFields = [
+        'employeeId',
+        'contactPhone',
+        'address',
+        'joiningDate',
+        'subjects',
+        'assignedClasses'
+    ];
+
+    profileFields.forEach(field => {
+        if (payload[field] !== undefined) {
+            (teacher as any)[field] = payload[field];
+        }
+    });
+
+    await teacher.save();
+    return teacher;
+};
+
+
+
 export const TecherService = {
     techerCrateInDb,
     techerGetAllInDb,
-    teacherDeleteInDb
+    teacherDeleteInDb,
+    updateTeacherInDb
 }

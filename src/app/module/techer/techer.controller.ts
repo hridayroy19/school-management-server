@@ -96,10 +96,25 @@ const deleteTeacher = catchAsync(async (req, res) => {
 })
 
 
+const updateTeacher = catchAsync(async (req, res) => {
+    const { id } = req.params;
+    // console.log(id)
+    const updateData = req.body;
+
+    const result = await TecherService.updateTeacherInDb(id, updateData);
+
+    sendResponse(res, {
+        status: true,
+        statusCode: httpStatus.OK,
+        message: 'Teacher updated successfully',
+        data: result,
+    });
+});
 
 
 export const teacherController = {
   createTeacher,
   getAllTecher,
-  deleteTeacher
+  deleteTeacher,
+  updateTeacher
 };

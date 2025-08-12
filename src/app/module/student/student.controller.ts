@@ -82,9 +82,26 @@ const deleteStudent = catchAsync(async (req, res) => {
     });
 })
 
+
+const updateStudent = catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const updateData = req.body;
+
+    const result = await studentService.updateStudentInDb(id, updateData);
+
+    sendResponse(res, {
+        status: true,
+        statusCode: httpStatus.OK,
+        message: 'Student updated successfully',
+        data: result,
+    });
+});
+
+
 export const studnetController = {
     creatStudent,
     getStudent,
-    deleteStudent
+    deleteStudent,
+    updateStudent
 
 }

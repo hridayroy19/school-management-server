@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import mongoose from "mongoose"
-import User from "../user/user.model"
 import { IStudent } from "./student.interface"
 import { Student } from "./student.model"
+import User from "../user/user.model"
 
 
 const studnetcrateInDb = async (data: IStudent) => {
@@ -44,8 +45,35 @@ const studnetDeleteInDb = async (studentId: string) => {
     }
 };
 
+
+// update studnet all data , can not update email namd password
+const updateStudentInDb = async (id: string, payload: Partial<any>) => {
+
+    const student = await Student.findById(id);
+    if (!student) {
+        throw new Error('Student not found');
+    }
+
+
+    if (payload.name) {
+        await User.findByIdAndUpdate(student.userId, { name: payload.name }, { new: true });
+    }
+
+    const profileFields = ['address', 'guardianName', 'guardianPhone', 'contactPhone', 'rollNumber', 'classId', 'enrollmentYear'];
+    profileFields.forEach(field => {
+        if (payload[field] !== undefined) {
+            (student as any)[field] = payload[field];
+        }
+    });
+
+    await student.save();
+    return student;
+};
+
+
 export const studentService = {
     studnetcrateInDb,
     studnetGetAllInDb,
-    studnetDeleteInDb
+    studnetDeleteInDb,
+    updateStudentInDb
 }

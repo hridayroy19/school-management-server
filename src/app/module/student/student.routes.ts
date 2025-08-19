@@ -1,13 +1,13 @@
-import { Router } from "express";
-import { studnetController } from "./student.controller";
-
+import { Router } from 'express'
+import { studnetController } from './student.controller'
 
 const studentRouter = Router()
 
-studentRouter.post("/create-student", studnetController.creatStudent)
-studentRouter.get("/", studnetController.getAllStudent)
-studentRouter.get("/:id", studnetController.getSudent)
-studentRouter.delete("/delete-student/:id", studnetController.deleteStudent)
-studentRouter.patch("/update-student/:id", studnetController.updateStudent)
+studentRouter.post('/create-student', studnetController.creatStudent)
+studentRouter.get('/', studnetController.getAllStudent)
+studentRouter.get('/:id', studnetController.getSudent)
+studentRouter.delete('/delete-student/:id', studnetController.deleteStudent)
+studentRouter.patch('/update-student/:id', studnetController.updateStudent)
+studentRouter.get('/classId/:id', studnetController.getClassIdStudents)
 
-export default studentRouter;
+export default studentRouter

@@ -1,8 +1,18 @@
-import mongoose, { Schema } from "mongoose";
-import { IStudent } from "./student.interface";
+import mongoose, { Schema } from 'mongoose'
+import { IStudent } from './student.interface'
 
-const studentSchema = new Schema<IStudent>({
-    userId: { type: Schema.Types.ObjectId, ref: 'User', required: true, unique: true },
+const studentSchema = new Schema<IStudent>(
+  {
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+      unique: true,
+    },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
     rollNumber: { type: String, required: true, unique: true },
     classId: { type: Schema.Types.ObjectId, ref: 'Class', required: true },
     guardianName: { type: String, required: true },
@@ -10,7 +20,9 @@ const studentSchema = new Schema<IStudent>({
     contactPhone: { type: String, required: true },
     address: { type: String, required: true },
     enrollmentYear: { type: Date, required: true },
-}, { timestamps: true });
+  },
 
+  { timestamps: true }
+)
 
-export const Student = mongoose.model<IStudent>('Student', studentSchema);
+export const Student = mongoose.model<IStudent>('Student', studentSchema)

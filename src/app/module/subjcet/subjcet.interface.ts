@@ -1,7 +1,6 @@
-
 export interface ISubject {
-  name: string;       
-  code: string;       
-  fullMarks: number;  
-  passMarks: number; 
+  name: string
+  code: string
+  fullMarks: number
+  passMarks: number
 }

@@ -1,6 +1,5 @@
-
 export interface IClass {
-  name: string;          
-  section?: string;      
-  session: string;   
+  name: string
+  section?: string
+  session: string
 }

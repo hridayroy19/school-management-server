@@ -109,6 +109,7 @@ const updateStudent = catchAsync(async (req, res) => {
 
 const getClassIdStudents = catchAsync(async (req, res) => {
   const { id } = req.params
+
   const students = await studentService.getStudentsByClassId(id)
 
   sendResponse(res, {

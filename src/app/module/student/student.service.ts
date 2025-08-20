@@ -88,7 +88,10 @@ const updateStudentInDb = async (id: string, payload: Partial<any>) => {
 }
 
 const getStudentsByClassId = async (classId: string) => {
-  const students = await Student.find({ classId })
+   
+  const students = await Student.find({classId} )
+ 
+
   if (!students || students.length === 0)
     throw new Error('No students found for this class')
 

@@ -3,11 +3,12 @@ import validateRequest from '../../middlewares/validateRequest'
 import { UserValidation } from '../user/userValidation'
 import { AuthController } from './auth.controller'
 import { AuthValidation } from './auth.validation'
+import auth from '../../middlewares/auth'
 
 const authRoute = Router()
 
 authRoute.post(
-  '/register',
+  '/register',auth("ADMIN"),
   validateRequest(UserValidation.userValidationSchema),
   AuthController.register
 )

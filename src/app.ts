@@ -14,7 +14,7 @@ import sendSMSRouter from './app/module/sendSMS/sendSMS.route'
 const app = express()
 
 // middleware
-app.use(cors())
+app.use(cors({origin:"https://hrschoolclient.vercel.app"}))
 app.use(express.json())
 
 // router
